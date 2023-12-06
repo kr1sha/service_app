@@ -149,3 +149,6 @@ LOGGING = {
     }
 }
 
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+#protokol/host_name s celery_app faila/standartniy port dlya redisa/ nomer bazi dannih
+
