@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'cachalot',
+    
     'clients',
     'services',
 ]
@@ -151,4 +154,19 @@ LOGGING = {
 
 CELERY_BROKER_URL = 'redis://redis:6379/0'
 #protokol/host_name s celery_app faila/standartniy port dlya redisa/ nomer bazi dannih
+
+
+CACHES = {
+    "default": {
+        #"BACKEND": "django.core.cache.backends.redis.RedisCache", - в новой версии джанги
+        #"LOCATION": "redis://redis:6379/0",
+        #"OPTIONS": {
+        #    "db": "1",
+        #},
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/1',
+    }
+}
+
+PRICE_CACHE_NAME = 'price_cache'
 

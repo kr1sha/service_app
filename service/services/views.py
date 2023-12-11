@@ -1,10 +1,13 @@
+from django.conf import settings
 from django.db.models import Prefetch, F, Sum
 from django.shortcuts import render
 from rest_framework.viewsets import ReadOnlyModelViewSet
+from django.core.cache import cache
 
 from clients.models import Client
 from services.models import Subscription, Plan
 from services.serializers import SubscriptionSerializer
+from services.tasks import get_total_price
 
 
 class SubscriptionView(ReadOnlyModelViewSet):
@@ -20,9 +23,14 @@ class SubscriptionView(ReadOnlyModelViewSet):
         queryset = self.filter_queryset(self.get_queryset())
         response = super().list(request, *args, **kwargs)
 
+        total_price = get_total_price(queryset)
+
         response_data = {'result': response.data}
-        response_data['total_amount'] = queryset.aggregate(total=Sum('price')).get('total')
+        response_data['total_amount'] = total_price
         response.data = response_data
 
         return response
+
+
+
 

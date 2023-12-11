@@ -14,5 +14,6 @@ app.autodiscover_tasks()
 
 @app.task()
 def debug_task():
+    """some test task for celery"""
     time.sleep(20)
     print('hello from debug task')
